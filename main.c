@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/*EXERCICIO 2*/
 
 Arv *arv_insere(Arv *a, char c){
     if (a==NULL){
@@ -15,11 +16,9 @@ Arv *arv_insere(Arv *a, char c){
         a->dir = arv_insere(a->dir, c);
   return a; 
 }
-/*
-    NUMERO DE FOLHAS
-    NUMERO DE NOHS COM UM FILHO
-    NUMERO DE NOHS COM DOIS FILHOS
-*/
+
+/*EXERCICIO 3*/
+
 int *arv_conta(Arv *a, int * dados){
 
     if (!arv_vazia(a)){
@@ -51,6 +50,7 @@ int *arv_conta(Arv *a, int * dados){
     }
 }
 
+/*EXERCICIO 4*/
 int *arv_histograma(Arv * a, int * occur){
     if(!arv_vazia(a)){
         occur[(int)a->info] = occur[(int)a->info]+1;    
@@ -59,33 +59,8 @@ int *arv_histograma(Arv * a, int * occur){
     }
     return occur;
 }
-
-int main(){
-
-    Arv *tree; 
-    int *occur = (int *) calloc (254, sizeof(int));
-    int *dados = (int *) calloc (3, sizeof(int));
-    int altura; 
-
-    tree = arv_criavazia();
-    tree = arv_insere(tree, 'c');
-    tree = arv_insere(tree, 'a');
-    tree = arv_insere(tree, 'a');
-    tree = arv_insere(tree, 'a');
-    tree = arv_insere(tree, 'a');
-    tree = arv_insere(tree, 'a');
-    tree = arv_insere(tree, 'a');
-    tree = arv_insere(tree, 'd');
-    tree = arv_insere(tree, 'd');
-    tree = arv_insere(tree, 'd');
-    tree = arv_insere(tree, 'd');
-    tree = arv_insere(tree, 'b');
-    dados = arv_conta(tree, dados);
-    occur = arv_histograma(tree, occur);
-    //printf("%d%d%d%d\n", occur[97], occur[98], occur[99], occur[100]);
-    //printf("%d%d%d\n", dados[0], dados[1], dados[2]);
-    //arv_imprime_simetrica(tree);
-    altura = 0; 
+void imprime_histograma(int * occur){
+    int altura = 0; 
     for(int i = 0; i < 254; i++){
         if(altura < occur[i]){
             altura = occur[i];
@@ -110,6 +85,48 @@ int main(){
           }
     }
     printf("\n");
+}
+
+int main(){
+
+    Arv *tree; 
+    int *occur = (int *) calloc (254, sizeof(int));
+    int *dados = (int *) calloc (3, sizeof(int));
+    int altura; 
+
+    /*EXERCICIO 2 - INSERÇÃO DE ELEMENTOS NUMA ÁRVORE*/
+    tree = arv_criavazia();
+    tree = arv_insere(tree, 'c');
+    tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'd');
+    tree = arv_insere(tree, 'b');
+
+    /*EXERCICIO 1 - IMPLEMENTAÇÃO DOS TIPOS DE PERCUSO*/
+    printf("\nPREORDEM:  ");
+    arv_imprime_preordem(tree);
+    printf("\nSIMETRICA: ");
+    arv_imprime_simetrica(tree);
+    printf("\nPOSORDEM:  ");
+    arv_imprime_posordem(tree);
+    printf("\n");
+
+
+    /*EXERCICIO 3 - IMPLEMENTAÇÃO E IMPRESSÃO DOS DADOS DE UMA ARVORE, FOLHAS
+      NOS DE UM FILHO, E NOHS DE DOIS FILHOS*/
+    dados = arv_conta(tree, dados);
+    printf("\nDADOS ARVORES: ");
+    printf("%d", dados[0]);
+    printf("%d", dados[1]);
+    printf("%d", dados[2]);
+    printf("\n\nHISTOGRAMA: \n\n");
+
+    /*EXERCICIO 4 - IMPLEMENTAÇÃO E IMPRESSAO DE UM H ISTOGRAMA DE OCORRENCIA
+      DE UMA ARVORE*/
+    occur = arv_histograma(tree, occur);
+    imprime_histograma(occur);
+    
+    
 
 
     return 0;

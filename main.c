@@ -51,19 +51,65 @@ int *arv_conta(Arv *a, int * dados){
     }
 }
 
+int *arv_histograma(Arv * a, int * occur){
+    if(!arv_vazia(a)){
+        occur[(int)a->info] = occur[(int)a->info]+1;    
+        occur = arv_histograma(a->esq, occur);
+        occur = arv_histograma(a->dir, occur);
+    }
+    return occur;
+}
+
 int main(){
 
     Arv *tree; 
+    int *occur = (int *) calloc (254, sizeof(int));
     int *dados = (int *) calloc (3, sizeof(int));
+    int altura; 
 
     tree = arv_criavazia();
     tree = arv_insere(tree, 'c');
     tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'a');
+    tree = arv_insere(tree, 'd');
+    tree = arv_insere(tree, 'd');
+    tree = arv_insere(tree, 'd');
     tree = arv_insere(tree, 'd');
     tree = arv_insere(tree, 'b');
     dados = arv_conta(tree, dados);
-    printf("%d%d%d\n", dados[0], dados[1], dados[2]);
+    occur = arv_histograma(tree, occur);
+    //printf("%d%d%d%d\n", occur[97], occur[98], occur[99], occur[100]);
+    //printf("%d%d%d\n", dados[0], dados[1], dados[2]);
     //arv_imprime_simetrica(tree);
+    altura = 0; 
+    for(int i = 0; i < 254; i++){
+        if(altura < occur[i]){
+            altura = occur[i];
+        }
+    }
+    for(int j = 0; j < altura; altura--){
+        for(int i  = 0; i < 254; i++){
+            if(occur[i] != 0){
+             if(occur[i] < altura){
+                printf("    ");
+             }
+             else{
+                printf("*   ");
+             }
+            }
+        }
+        printf("\n");
+    }
+    for(int i  = 0; i < 254; i++){
+          if(occur[i] != 0){
+            printf("%c   ", (char)i);
+          }
+    }
+    printf("\n");
 
 
     return 0;
